@@ -4,3 +4,6 @@ djangorestframework
 opencv-python-headless
 numpy
 pillow
+torch
+torchvision
+torchaudio
