@@ -32,7 +32,7 @@ document.getElementById('uploadBtn').onclick = async () => {
   if(!f) { alert('Choose image'); return; }
   const form = new FormData();
   form.append('image', f);
-  const up = await fetch('/api/upload/', { method:'POST', body: form });
+  const up = await fetch('/api/image_upload/', { method:'POST', body: form });
   const data = await up.json();
   if(!data.id) { alert('Upload failed'); return; }
   // analyze

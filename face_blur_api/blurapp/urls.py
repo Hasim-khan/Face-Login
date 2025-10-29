@@ -5,7 +5,7 @@ from . import views as v
 from django.urls import path
 
 urlpatterns = [
-    path('upload/', ImageUploadAPIView.as_view(), name='upload'),
+    path('image_upload/', ImageUploadAPIView.as_view(), name='upload'),
     path('analyze/', AnalyzeImageAPIView.as_view(), name='analyze'),
     path('report/<int:pk>/', ReportAPIView.as_view(), name='report'),
 ]
