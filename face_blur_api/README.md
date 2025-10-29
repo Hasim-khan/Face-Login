@@ -6,21 +6,27 @@ Django REST Framework project that accepts images, detects faces (OpenCV), check
 applies a simple unsharp mask to "deblur" when blur is detected, and returns JSON metadata with processed image URL.
 
 ## Quickstart (local)
-1. Create and activate a Python virtualenv (Python 3.9+ recommended)
+1. Create and activate a Python virtualenv (Python =  3.10.2 + recommended and django = 4.0.4)
+ ```powershell / and can use bash
+    python -m venv venv
+    venv\Script\activate
+   ```
 2. Install dependencies:
-   ```bash
+   ```powershell / and can use bash
+   cd .\face_blur_api\
    pip install -r requirements.txt
    ```
 3. Run migrations:
-   ```bash
+   ```powershell / and can use bash
+   python manage.py makemigrations
    python manage.py migrate
    ```
 4. Create superuser (optional, for admin):
-   ```bash
+   ```powershell / and can use bash
    python manage.py createsuperuser
    ```
 5. Run server:
-   ```bash
+   ```powershell / and can use bash
    python manage.py runserver
    ```
 6. Visit http://127.0.0.1:8000/ to open the sample UI and test images.
