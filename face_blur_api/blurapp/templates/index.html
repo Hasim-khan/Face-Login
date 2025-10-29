@@ -1,0 +1,64 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Face Blur Detection</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { padding: 2rem; background:#f8f9fa; }
+    .card-img { width:100%; height:320px; object-fit:cover; border-radius:10px; }
+    .result-box { background:#fff; padding:1rem; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.06); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2 class="text-center text-primary mb-4">Face Blur Detection</h2>
+  <div class="card p-3 mb-3">
+    <input id="fileInput" type="file" accept="image/*" class="form-control mb-3">
+    <button id="uploadBtn" class="btn btn-primary w-100 mb-2">Upload & Analyze</button>
+    <div id="resultArea" class="mt-4"></div>
+  </div>
+  <div id="debug" style="display:none;"></div>
+</div>
+
+<script>
+async function postForm(url, form) {
+  const res = await fetch(url, { method:'POST', body: form });
+  return await res.json();
+}
+document.getElementById('uploadBtn').onclick = async () => {
+  const f = document.getElementById('fileInput').files[0];
+  if(!f) { alert('Choose image'); return; }
+  const form = new FormData();
+  form.append('image', f);
+  const up = await fetch('/api/upload/', { method:'POST', body: form });
+  const data = await up.json();
+  if(!data.id) { alert('Upload failed'); return; }
+  // analyze
+  const an = await fetch('/api/analyze/', {
+    method:'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({id: data.id})
+  });
+  const r = await an.json();
+  // display
+  const html = `
+    <div class="row">
+      <div class="col-md-6 result-box text-center">
+        <h6>Original</h6>
+        <img src="${r.data.original}" class="card-img">
+      </div>
+      <div class="col-md-6 result-box text-center">
+        <h6>After Deblur</h6>
+        <img src="${r.data.processed ? r.data.processed : r.data.original}" class="card-img">
+      </div>
+    </div>
+    <p class="text-center text-success mt-3">Faces detected: ${r.faces_detected}</p>
+    <pre style="white-space:pre-wrap; background:#f1f1f1; padding:1rem; border-radius:6px;">${JSON.stringify(r, null, 2)}</pre>
+  `;
+  document.getElementById('resultArea').innerHTML = html;
+}
+</script>
+</body>
+</html>
