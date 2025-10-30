@@ -13,6 +13,7 @@ applies a simple unsharp mask to "deblur" when blur is detected, and returns JSO
    ```
 2. Install dependencies:
    ```powershell / and can use bash
+   cd .\Face-Login\
    cd .\face_blur_api\
    pip install -r requirements.txt
    ```
